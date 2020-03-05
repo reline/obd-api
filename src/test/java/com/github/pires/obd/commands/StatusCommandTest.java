@@ -12,7 +12,8 @@
  */
 package com.github.pires.obd.commands;
 
-import com.github.pires.obd.commands.control.DtcNumberCommand;
+import com.github.pires.obd.commands.control.StatusCommand;
+
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
@@ -21,16 +22,21 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.powermock.api.easymock.PowerMock.*;
-import static org.testng.Assert.*;
+import static org.powermock.api.easymock.PowerMock.createMock;
+import static org.powermock.api.easymock.PowerMock.expectLastCall;
+import static org.powermock.api.easymock.PowerMock.replayAll;
+import static org.powermock.api.easymock.PowerMock.verifyAll;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Tests for DtcNumberCommand class.
  */
 @PrepareForTest(InputStream.class)
-public class DtcNumberCommandTest {
+public class StatusCommandTest {
 
-    private DtcNumberCommand command;
+    private StatusCommand command;
     private InputStream mockIn;
 
     /**
@@ -38,7 +44,7 @@ public class DtcNumberCommandTest {
      */
     @BeforeMethod
     public void setUp() throws Exception {
-        command = new DtcNumberCommand();
+        command = new StatusCommand();
     }
 
     /**
