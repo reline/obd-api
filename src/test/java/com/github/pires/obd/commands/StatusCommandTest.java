@@ -65,6 +65,15 @@ public class StatusCommandTest {
         expectLastCall().andReturn((byte) ' ');
         expectLastCall().andReturn((byte) '9');
         expectLastCall().andReturn((byte) 'F');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) '0');
         expectLastCall().andReturn((byte) '>');
 
         replayAll();
@@ -97,6 +106,15 @@ public class StatusCommandTest {
         expectLastCall().andReturn((byte) ' ');
         expectLastCall().andReturn((byte) '0');
         expectLastCall().andReturn((byte) 'F');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) '0');
         expectLastCall().andReturn((byte) '>');
 
         replayAll();
@@ -107,6 +125,88 @@ public class StatusCommandTest {
 
         assertFalse(command.getMilOn());
         assertEquals(command.getTotalAvailableCodes(), 15);
+
+        verifyAll();
+    }
+
+    @Test
+    public void testIsReady() throws IOException {
+        // mock InputStream read
+        mockIn = createMock(InputStream.class);
+        mockIn.read();
+        expectLastCall().andReturn((byte) '4');
+        expectLastCall().andReturn((byte) '1');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) '1');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) 'F');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) 'E');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) ' ');
+        // availability
+        expectLastCall().andReturn((byte) 'F');
+        expectLastCall().andReturn((byte) 'F');
+        expectLastCall().andReturn((byte) ' ');
+        // (in)completeness
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) '>');
+
+        replayAll();
+
+        // call the method to test
+        command.readResult(mockIn);
+        command.getFormattedResult();
+
+        assertTrue(command.onboardTestResults.isReady());
+
+        verifyAll();
+    }
+
+    @Test
+    public void testNoneReady() throws IOException {
+        // mock InputStream read
+        mockIn = createMock(InputStream.class);
+        mockIn.read();
+        expectLastCall().andReturn((byte) '4');
+        expectLastCall().andReturn((byte) '1');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) '1');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) 'F');
+        expectLastCall().andReturn((byte) ' ');
+        expectLastCall().andReturn((byte) 'E');
+        expectLastCall().andReturn((byte) '0');
+        expectLastCall().andReturn((byte) ' ');
+        // availability
+        expectLastCall().andReturn((byte) 'F');
+        expectLastCall().andReturn((byte) 'F');
+        expectLastCall().andReturn((byte) ' ');
+        // (in)completeness
+        expectLastCall().andReturn((byte) 'F');
+        expectLastCall().andReturn((byte) 'F');
+        expectLastCall().andReturn((byte) '>');
+
+        replayAll();
+
+        // call the method to test
+        command.readResult(mockIn);
+        command.getFormattedResult();
+
+        assertFalse(command.onboardTestResults.isReady());
+        assertFalse(command.onboardTestResults.getEgrSystem().isReady());
+        assertFalse(command.onboardTestResults.getOxygenSensorHeater().isReady());
+        assertFalse(command.onboardTestResults.getOxygenSensor().isReady());
+        assertFalse(command.onboardTestResults.getAcRefrigerant().isReady());
+        assertFalse(command.onboardTestResults.getSecondaryAirSystem().isReady());
+        assertFalse(command.onboardTestResults.getEvapSystem().isReady());
+        assertFalse(command.onboardTestResults.getHeatedCatalyst().isReady());
+        assertFalse(command.onboardTestResults.getCatalyst().isReady());
 
         verifyAll();
     }
