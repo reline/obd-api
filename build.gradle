@@ -10,10 +10,8 @@ buildscript {
     }
 }
 
-plugins {
-    id 'java'
-    id 'org.jetbrains.kotlin.jvm'
-}
+apply plugin: 'java'
+apply plugin: 'org.jetbrains.kotlin.jvm'
 
 test {
     // enable TestNG support (default is JUnit)
