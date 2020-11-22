@@ -10,14 +10,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.github.pires.obd.enums;
+package com.github.pires.obd.enums
 
 /**
  * All OBD protocols.
  *
  */
-public enum ObdProtocols {
-
+enum class ObdProtocols(val value: Char) {
     /**
      * Auto select protocol and save.
      */
@@ -82,19 +81,4 @@ public enum ObdProtocols {
      * 11 bit ID (user adjustable), 50 kbaud (user adjustable)
      */
     USER2_CAN('C');
-
-    private final char value;
-
-    ObdProtocols(char value) {
-        this.value = value;
-    }
-
-    /**
-     * <p>Getter for the field <code>value</code>.</p>
-     *
-     * @return a char.
-     */
-    public char getValue() {
-        return value;
-    }
 }

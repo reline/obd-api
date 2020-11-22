@@ -1,23 +1,23 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-package com.github.pires.obd.enums;
+package com.github.pires.obd.enums
 
 /**
  * Names of all available commands.
  *
  */
-public enum AvailableCommandNames {
-
+enum class AvailableCommandNames(val value: String) {
     AIR_INTAKE_TEMP("Air Intake Temperature"),
     AMBIENT_AIR_TEMP("Ambient Air Temperature"),
     ENGINE_COOLANT_TEMP("Engine Coolant Temperature"),
@@ -57,25 +57,5 @@ public enum AvailableCommandNames {
     WIDEBAND_AIR_FUEL_RATIO("Wideband Air/Fuel Ratio"),
     DESCRIBE_PROTOCOL("Describe protocol"),
     DESCRIBE_PROTOCOL_NUMBER("Describe protocol number"),
-    IGNITION_MONITOR("Ignition monitor")
-    ;
-
-    private final String value;
-
-    /**
-     * @param value Command description
-     */
-    AvailableCommandNames(String value) {
-        this.value = value;
-    }
-
-    /**
-     * <p>Getter for the field <code>value</code>.</p>
-     *
-     * @return a {@link java.lang.String} object.
-     */
-    public final String getValue() {
-        return value;
-    }
-
+    IGNITION_MONITOR("Ignition monitor");
 }
