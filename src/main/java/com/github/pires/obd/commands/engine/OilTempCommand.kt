@@ -2,7 +2,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
@@ -10,20 +10,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.github.pires.obd.commands;
+package com.github.pires.obd.commands.engine
+
+import com.github.pires.obd.commands.temperature.TemperatureCommand
+import com.github.pires.obd.enums.AvailableCommandNames
 
 /**
- * This interface will define methods for converting to/from imperial units and
- * from/to metric units.
+ * Displays the current engine Oil temperature.
  *
  */
-public interface SystemOfUnits {
-
-    /**
-     * <p>getImperialUnit.</p>
-     *
-     * @return a float.
-     */
-    float getImperialUnit();
-
+class OilTempCommand : TemperatureCommand("01 5C") {
+    override fun getName(): String {
+        return AvailableCommandNames.ENGINE_OIL_TEMP.value
+    }
 }
