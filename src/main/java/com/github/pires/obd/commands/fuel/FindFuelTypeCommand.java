@@ -51,7 +51,7 @@ public class FindFuelTypeCommand extends ObdCommand {
     @Override
     public String getFormattedResult() {
         try {
-            return FuelType.fromValue(fuelType).getDescription();
+            return FuelType.Companion.fromValue(fuelType).getDescription();
         } catch (NullPointerException e) {
             return "-";
         }
