@@ -35,22 +35,22 @@ class ModuleVoltageCommand : ObdCommand("01 42") {
     }
 
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return String.format("%.1f%s", voltage, resultUnit)
     }
 
     /** {@inheritDoc}  */
-    override fun getResultUnit(): String {
+    override val resultUnit: String get() {
         return "V"
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return voltage.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.CONTROL_MODULE_VOLTAGE.value
     }
 }

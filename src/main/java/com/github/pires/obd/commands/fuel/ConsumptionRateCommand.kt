@@ -31,22 +31,22 @@ class ConsumptionRateCommand : ObdCommand("01 5E") {
     }
 
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return String.format("%.1f%s", litersPerHour, resultUnit)
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return litersPerHour.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getResultUnit(): String {
+    override val resultUnit: String get() {
         return "L/h"
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.FUEL_CONSUMPTION_RATE.value
     }
 }

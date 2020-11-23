@@ -19,18 +19,18 @@ import com.github.pires.obd.commands.PersistentCommand
  * Retrieve available PIDs ranging from 21 to 40.
  *
  */
-abstract class AvailablePidsCommand(command: String?) : PersistentCommand(command) {
+abstract class AvailablePidsCommand(command: String) : PersistentCommand(command) {
     /** {@inheritDoc}  */
     override fun performCalculations() {}
 
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return calculatedResult
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         //First 4 characters are a copy of the command code, don't return those
-        return rawData.toString().substring(4)
+        return result.toString().substring(4)
     }
 }

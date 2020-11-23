@@ -20,7 +20,7 @@ import com.github.pires.obd.enums.AvailableCommandNames
  *
  */
 class OilTempCommand : TemperatureCommand("01 5C") {
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.ENGINE_OIL_TEMP.value
     }
 }

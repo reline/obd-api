@@ -19,12 +19,12 @@ package com.github.pires.obd.commands.protocol
  */
 class ObdWarmstartCommand : ObdProtocolCommand("AT WS") {
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return result
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return "Warmstart OBD"
     }
 }

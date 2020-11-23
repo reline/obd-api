@@ -22,7 +22,7 @@ import com.github.pires.obd.enums.AvailableCommandNames
  */
 class ThrottlePositionCommand : PercentageObdCommand("01 11") {
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.THROTTLE_POS.value
     }
 }

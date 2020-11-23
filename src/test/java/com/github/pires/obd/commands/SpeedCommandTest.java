@@ -94,7 +94,7 @@ public class SpeedCommandTest {
 
         // call the method to test
         command.readResult(mockIn);
-        command.useImperialUnits = true;
+        command.setUseImperialUnits(true);
         command.getFormattedResult();
         assertEquals(command.getImperialSpeed(), 42.874615f);
 

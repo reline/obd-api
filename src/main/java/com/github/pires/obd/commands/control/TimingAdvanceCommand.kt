@@ -20,7 +20,7 @@ import com.github.pires.obd.enums.AvailableCommandNames
  * Timing Advance
  */
 class TimingAdvanceCommand : PercentageObdCommand("01 0E") {
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.TIMING_ADVANCE.value
     }
 }

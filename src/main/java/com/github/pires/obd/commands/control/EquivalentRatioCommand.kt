@@ -42,7 +42,7 @@ class EquivalentRatioCommand : PercentageObdCommand("01 44") {
         get() = percentage.toDouble()
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.EQUIV_RATIO.value
     }
 }

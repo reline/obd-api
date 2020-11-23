@@ -28,7 +28,7 @@ class FuelLevelCommand : PercentageObdCommand("01 2F") {
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.FUEL_LEVEL.value
     }
 

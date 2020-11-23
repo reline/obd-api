@@ -25,15 +25,15 @@ class IgnitionMonitorCommand : ObdCommand("AT IGN") {
         isIgnitionOn = result.equals("ON", ignoreCase = true)
     }
 
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return result
     }
 
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.IGNITION_MONITOR.value
     }
 
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return result
     }
 

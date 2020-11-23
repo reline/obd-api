@@ -31,17 +31,17 @@ class FindFuelTypeCommand : ObdCommand("01 51") {
     }
 
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return fromValue(fuelType)?.description ?: "-"
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return fuelType.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.FUEL_TYPE.value
     }
 }

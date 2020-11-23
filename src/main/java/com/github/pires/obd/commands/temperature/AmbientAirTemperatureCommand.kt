@@ -20,7 +20,7 @@ import com.github.pires.obd.enums.AvailableCommandNames
  *
  */
 class AmbientAirTemperatureCommand : TemperatureCommand("01 46") {
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.AMBIENT_AIR_TEMP.value
     }
 }

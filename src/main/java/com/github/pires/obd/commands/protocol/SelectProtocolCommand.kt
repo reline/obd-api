@@ -21,12 +21,12 @@ import com.github.pires.obd.enums.ObdProtocols
  */
 class SelectProtocolCommand(private val protocol: ObdProtocols) : ObdProtocolCommand("AT SP " + protocol.value) {
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return result
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return "Select Protocol " + protocol.name
     }
 }

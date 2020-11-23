@@ -17,11 +17,11 @@ package com.github.pires.obd.commands.protocol
  * Turn-off spaces.
  */
 class SpacesOffCommand : ObdProtocolCommand("ATS0") {
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return result
     }
 
-    override fun getName(): String {
+    override val name: String get() {
         return "Spaces Off"
     }
 }

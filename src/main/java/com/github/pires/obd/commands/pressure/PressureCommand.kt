@@ -20,7 +20,7 @@ import com.github.pires.obd.commands.SystemOfUnits
  * Abstract pressure command.
  *
  */
-abstract class PressureCommand(cmd: String?) : ObdCommand(cmd), SystemOfUnits {
+abstract class PressureCommand(cmd: String) : ObdCommand(cmd), SystemOfUnits {
     protected var tempValue = 0
 
     /**
@@ -55,7 +55,7 @@ abstract class PressureCommand(cmd: String?) : ObdCommand(cmd), SystemOfUnits {
     }
 
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return if (useImperialUnits) String.format("%.1f%s", imperialUnit, resultUnit) else String.format("%d%s", metricUnit, resultUnit)
     }
 
@@ -69,12 +69,12 @@ abstract class PressureCommand(cmd: String?) : ObdCommand(cmd), SystemOfUnits {
         get() = metricUnit * 0.145037738f
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return if (useImperialUnits) imperialUnit.toString() else metricUnit.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getResultUnit(): String {
+    override val resultUnit: String get() {
         return if (useImperialUnits) "psi" else "kPa"
     }
 }

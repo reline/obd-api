@@ -32,17 +32,17 @@ class DistanceMILOnCommand : ObdCommand("01 21"), SystemOfUnits {
         km = buffer[2] * 256 + buffer[3]
     }
 
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return if (useImperialUnits) String.format("%.2f%s", imperialUnit, resultUnit) else String.format("%d%s", km, resultUnit)
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return if (useImperialUnits) imperialUnit.toString() else km.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getResultUnit(): String {
+    override val resultUnit: String get() {
         return if (useImperialUnits) "m" else "km"
     }
 
@@ -51,7 +51,7 @@ class DistanceMILOnCommand : ObdCommand("01 21"), SystemOfUnits {
         get() = km * 0.621371192f
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.DISTANCE_TRAVELED_MIL_ON
                 .value
     }

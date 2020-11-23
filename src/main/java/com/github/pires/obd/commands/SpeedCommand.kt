@@ -53,22 +53,22 @@ class SpeedCommand : ObdCommand("01 0D"), SystemOfUnits {
      *
      * @return a [java.lang.String] object.
      */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return if (useImperialUnits) String.format("%.2f%s", imperialUnit, resultUnit) else String.format("%d%s", metricSpeed, resultUnit)
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return if (useImperialUnits) imperialUnit.toString() else metricSpeed.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getResultUnit(): String {
+    override val resultUnit: String get() {
         return if (useImperialUnits) "mph" else "km/h"
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.SPEED.value
     }
 }

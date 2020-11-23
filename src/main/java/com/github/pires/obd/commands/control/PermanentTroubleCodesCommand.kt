@@ -24,8 +24,9 @@ import java.io.InputStream
  * And where are more messages it will be stored in frames that have 7 bytes.
  * In one frame are stored 3 DTC.
  * If we find out DTC P0000 that mean no message are we can end.
+ *
  */
-class PendingTroubleCodesCommand : ObdCommand("07") {
+class PermanentTroubleCodesCommand : ObdCommand("0A") {
     private var codes = StringBuilder()
 
     /** {@inheritDoc}  */
@@ -39,13 +40,13 @@ class PendingTroubleCodesCommand : ObdCommand("07") {
         val canOneFrame = result.replace("[\r\n]".toRegex(), "")
         val canOneFrameLength = canOneFrame.length
         if (canOneFrameLength <= 16 && canOneFrameLength % 4 == 0) { //CAN(ISO-15765) protocol one frame.
-            workingData = canOneFrame //47yy{codes}
-            startIndex = 4 //Header is 47yy, yy showing the number of data items.
+            workingData = canOneFrame //4Ayy{codes}
+            startIndex = 4 //Header is 4Ayy, yy showing the number of data items.
         } else if (result.contains(":")) { //CAN(ISO-15765) protocol two and more frames.
-            workingData = result.replace("[\r\n].:".toRegex(), "") //xxx47yy{codes}
-            startIndex = 7 //Header is xxx47yy, xxx is bytes of information to follow, yy showing the number of data items.
+            workingData = result.replace("[\r\n].:".toRegex(), "") //xxx4Ayy{codes}
+            startIndex = 7 //Header is xxx4Ayy, xxx is bytes of information to follow, yy showing the number of data items.
         } else { //ISO9141-2, KWP2000 Fast and KWP2000 5Kbps (ISO15031) protocols.
-            workingData = result.replace("^47|[\r\n]47|[\r\n]".toRegex(), "")
+            workingData = result.replace("^4A|[\r\n]4A|[\r\n]".toRegex(), "")
         }
         var begin = startIndex
         while (begin < workingData.length) {
@@ -67,6 +68,17 @@ class PendingTroubleCodesCommand : ObdCommand("07") {
 
     private fun hexStringToByteArray(s: Char): Byte {
         return (Character.digit(s, 16) shl 4).toByte()
+    }
+
+    /**
+     *
+     * formatResult.
+     *
+     * @return the formatted result of this command in string representation.
+     */
+    @Deprecated("use #getCalculatedResult instead")
+    fun formatResult(): String {
+        return codes.toString()
     }
 
     /** {@inheritDoc}  */
@@ -108,7 +120,7 @@ class PendingTroubleCodesCommand : ObdCommand("07") {
 
     /** {@inheritDoc}  */
     override val name: String get() {
-        return AvailableCommandNames.PENDING_TROUBLE_CODES.value
+        return AvailableCommandNames.PERMANENT_TROUBLE_CODES.value
     }
 
     companion object {

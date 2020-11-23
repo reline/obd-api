@@ -29,7 +29,7 @@ sealed class ResponseException : RuntimeException() {
         return isErrorInternal(response.clean())
     }
 
-    fun setCommand(command: String?) {
+    fun setCommand(command: String) {
         this.command = command
     }
 

@@ -21,7 +21,7 @@ import com.github.pires.obd.enums.AvailableCommandNames
  */
 class BarometricPressureCommand : PressureCommand("01 33") {
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.BAROMETRIC_PRESSURE.value
     }
 }

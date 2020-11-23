@@ -30,17 +30,17 @@ class MassAirFlowCommand : ObdCommand("01 10") {
     }
 
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return String.format("%.2f%s", maf, resultUnit)
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return maf.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getResultUnit(): String {
+    override val resultUnit: String get() {
         return "g/s"
     }
 
@@ -54,7 +54,7 @@ class MassAirFlowCommand : ObdCommand("01 10") {
         get() = maf.toDouble()
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.MAF.value
     }
 }

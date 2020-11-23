@@ -21,7 +21,7 @@ import com.github.pires.obd.enums.AvailableCommandNames
  */
 class IntakeManifoldPressureCommand : PressureCommand("01 0B") {
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.INTAKE_MANIFOLD_PRESSURE.value
     }
 }

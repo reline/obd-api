@@ -19,7 +19,7 @@ import com.github.pires.obd.enums.AvailableCommandNames
  * Temperature of intake air.
  */
 class AirIntakeTemperatureCommand : TemperatureCommand("01 0F") {
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.AIR_INTAKE_TEMP.value
     }
 }

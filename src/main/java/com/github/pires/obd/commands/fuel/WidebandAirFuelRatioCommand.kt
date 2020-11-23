@@ -35,17 +35,17 @@ class WidebandAirFuelRatioCommand : ObdCommand("01 34") {
     }
 
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return String.format("%.2f", widebandAirFuelRatio) + ":1 AFR"
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return widebandAirFuelRatio.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.WIDEBAND_AIR_FUEL_RATIO.value
     }
 }

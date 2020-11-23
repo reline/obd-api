@@ -51,7 +51,7 @@ class ObdMultiCommand {
      * @throws java.lang.InterruptedException if any.
      */
     @Throws(IOException::class, InterruptedException::class)
-    fun sendCommands(`in`: InputStream?, out: OutputStream?) {
+    fun sendCommands(`in`: InputStream, out: OutputStream) {
         for (command in commands) command.run(`in`, out)
     }
 
