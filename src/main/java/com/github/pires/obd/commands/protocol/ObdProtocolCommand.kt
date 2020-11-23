@@ -16,25 +16,22 @@ package com.github.pires.obd.commands.protocol
 import com.github.pires.obd.commands.ObdCommand
 
 /**
- * Reset trouble codes.
  *
+ * Abstract ObdProtocolCommand class.
  */
-class ResetTroubleCodesCommand : ObdCommand("04") {
-    /** {@inheritDoc}  */
-    override fun performCalculations() {}
+abstract class ObdProtocolCommand(command: String) : ObdCommand(command) {
 
-    /** {@inheritDoc}  */
-    override val formattedResult: String get() {
-        return result
+    override fun performCalculations() {
+        // ignore
+    }
+
+    override fun fillBuffer() {
+        // settings commands don't return a value appropriate to place into the
+        // buffer, so do nothing
     }
 
     /** {@inheritDoc}  */
     override val calculatedResult: String get() {
-        return result
-    }
-
-    /** {@inheritDoc}  */
-    override val name: String get() {
-        return result
+        return result.toString()
     }
 }

@@ -20,7 +20,7 @@ import com.github.pires.obd.commands.SystemOfUnits
  * Abstract temperature command.
  *
  */
-abstract class TemperatureCommand(cmd: String?) : ObdCommand(cmd), SystemOfUnits {
+abstract class TemperatureCommand(cmd: String) : ObdCommand(cmd), SystemOfUnits {
     /**
      * @return the temperature in Celsius.
      */
@@ -48,7 +48,7 @@ abstract class TemperatureCommand(cmd: String?) : ObdCommand(cmd), SystemOfUnits
      * Get values from 'buff', since we can't rely on char/string for
      * calculations.
      */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return if (useImperialUnits) {
             String.format("%.1f%s", imperialUnit, resultUnit)
         } else {
@@ -56,16 +56,16 @@ abstract class TemperatureCommand(cmd: String?) : ObdCommand(cmd), SystemOfUnits
         }
     }
 
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return if (useImperialUnits) imperialUnit.toString() else temperature.toString()
     }
 
-    override fun getResultUnit(): String {
+    override val resultUnit: String get() {
         return if (useImperialUnits) "F" else "C"
     }
 
     /**
      * @return the OBD command name.
      */
-    abstract override fun getName(): String
+    abstract override val name: String
 }

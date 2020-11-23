@@ -27,12 +27,12 @@ import com.github.pires.obd.enums.AvailableCommandNames
  */
 class DescribeProtocolCommand : ObdProtocolCommand("AT DP") {
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return result
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.DESCRIBE_PROTOCOL.value
     }
 }

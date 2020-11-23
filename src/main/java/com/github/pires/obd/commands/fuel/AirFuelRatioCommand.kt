@@ -32,12 +32,12 @@ class AirFuelRatioCommand : ObdCommand("01 44") {
     }
 
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return String.format("%.2f", airFuelRatio) + ":1 AFR"
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return airFuelRatio.toString()
     }
 
@@ -45,7 +45,7 @@ class AirFuelRatioCommand : ObdCommand("01 44") {
         get() = afr.toDouble()
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.AIR_FUEL_RATIO.value
     }
 }

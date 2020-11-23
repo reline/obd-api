@@ -185,18 +185,18 @@ data class StatusCommand(val command: String = "01 01") : ObdCommand(command) {
      *
      * @return a [java.lang.String] object.
      */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         val res = if (milOn) "MIL is ON" else "MIL is OFF"
         return "$res$totalAvailableCodes codes"
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return totalAvailableCodes.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.DTC_NUMBER.value
     }
 }

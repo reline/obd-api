@@ -32,14 +32,14 @@ class CloseCommand : ObdProtocolCommand("AT PC") {
     /**
      * {@inheritDoc}
      */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return result
     }
 
     /**
      * {@inheritDoc}
      */
-    override fun getName(): String {
+    override val name: String get() {
         return "Protocol Close"
     }
 }

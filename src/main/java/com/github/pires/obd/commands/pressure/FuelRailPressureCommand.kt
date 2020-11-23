@@ -34,7 +34,7 @@ class FuelRailPressureCommand : PressureCommand("01 23") {
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.FUEL_RAIL_PRESSURE.value
     }
 }

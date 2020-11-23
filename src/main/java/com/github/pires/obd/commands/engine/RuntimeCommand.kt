@@ -30,7 +30,7 @@ class RuntimeCommand : ObdCommand("01 1F") {
     }
 
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         // determine time
         val hh = String.format("%02d", value / 3600)
         val mm = String.format("%02d", value % 3600 / 60)
@@ -39,17 +39,17 @@ class RuntimeCommand : ObdCommand("01 1F") {
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return value.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getResultUnit(): String {
+    override val resultUnit: String get() {
         return "s"
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.ENGINE_RUNTIME.value
     }
 }

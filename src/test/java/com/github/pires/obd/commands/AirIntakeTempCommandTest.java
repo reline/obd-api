@@ -94,7 +94,7 @@ public class AirIntakeTempCommandTest {
 
         // call the method to test
         command.readResult(mockIn);
-        command.useImperialUnits = true;
+        command.setUseImperialUnits(true);
         assertEquals(command.getImperialUnit(), 84.2f);
 
         verifyAll();

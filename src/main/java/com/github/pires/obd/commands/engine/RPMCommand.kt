@@ -31,22 +31,22 @@ class RPMCommand : ObdCommand("01 0C") {
     }
 
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return String.format("%d%s", rPM, resultUnit)
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return rPM.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getResultUnit(): String {
+    override val resultUnit: String get() {
         return "RPM"
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.ENGINE_RPM.value
     }
 }

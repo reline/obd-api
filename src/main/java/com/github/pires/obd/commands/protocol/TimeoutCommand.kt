@@ -22,12 +22,12 @@ package com.github.pires.obd.commands.protocol
  */
 class TimeoutCommand(timeout: Int) : ObdProtocolCommand("AT ST " + Integer.toHexString(0xFF and timeout)) {
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return result
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return "Timeout"
     }
 }

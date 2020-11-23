@@ -11,30 +11,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.pires.obd.commands.engine
+package com.github.pires.obd.commands.fuel
 
 import com.github.pires.obd.commands.PercentageObdCommand
-import com.github.pires.obd.enums.AvailableCommandNames
+import com.github.pires.obd.enums.FuelTrim
 
 /**
+ * Fuel Trim.
  *
- * AbsoluteLoadCommand class.
- *
+ * Will read the bank from parameters and construct the command accordingly.
+ * @see FuelTrim for more details.
  */
-class AbsoluteLoadCommand : PercentageObdCommand("01 43") {
-    /** {@inheritDoc}  */
-    override fun performCalculations() {
-        // ignore first two bytes [hh hh] of the response
-        val a = buffer[2]
-        val b = buffer[3]
-        percentage = (a * 256 + b) * 100 / 255.toFloat()
+class FuelTrimCommand(private val bank: FuelTrim) : PercentageObdCommand(bank.buildObdCommand()) {
+    private fun prepareTempValue(value: Int): Float {
+        return (value - 128) * (100.0f / 128)
     }
 
-    val ratio: Double
-        get() = percentage.toDouble()
+    override fun performCalculations() {
+        // ignore first two bytes [hh hh] of the response
+        percentage = prepareTempValue(buffer[2])
+    }
+
+    /**
+     *
+     * getValue.
+     *
+     * @return the readed Fuel Trim percentage value.
+     */
+    @get:Deprecated("use #getCalculatedResult()")
+    val value: Float
+        get() = percentage
+
+    fun getBank(): String {
+        return bank.bank
+    }
 
     /** {@inheritDoc}  */
     override val name: String get() {
-        return AvailableCommandNames.ABS_LOAD.value
+        return bank.bank
     }
 }

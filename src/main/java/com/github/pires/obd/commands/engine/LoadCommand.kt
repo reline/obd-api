@@ -22,7 +22,7 @@ import com.github.pires.obd.enums.AvailableCommandNames
  */
 class LoadCommand : PercentageObdCommand("01 04") {
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.ENGINE_LOAD.value
     }
 }

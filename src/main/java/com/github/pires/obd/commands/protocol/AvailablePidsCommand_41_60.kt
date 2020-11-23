@@ -21,7 +21,7 @@ import com.github.pires.obd.enums.AvailableCommandNames
  */
 class AvailablePidsCommand_41_60 : AvailablePidsCommand("01 40") {
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.PIDS_41_60.value
     }
 }

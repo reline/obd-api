@@ -16,14 +16,14 @@ package com.github.pires.obd.commands.protocol
 /**
  * This class allows for an unspecified command to be sent.
  */
-class ObdRawCommand(command: String?) : ObdProtocolCommand(command) {
+class ObdRawCommand(command: String) : ObdProtocolCommand(command) {
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return result
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return "Custom command $commandPID"
     }
 }

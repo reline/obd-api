@@ -65,7 +65,7 @@ public class IntakeManifoldPressureCommandTest {
 
         // call the method to test
         command.readResult(mockIn);
-        command.useImperialUnits(false);
+        command.setUseImperialUnits(false);
         assertEquals(command.getMetricUnit(), 100);
 
         verifyAll();
@@ -95,7 +95,7 @@ public class IntakeManifoldPressureCommandTest {
 
         // call the method to test
         command.readResult(mockIn);
-        command.useImperialUnits(true);
+        command.setUseImperialUnits(true);
         assertEquals(command.getImperialUnit(), 14.503774f);
 
         verifyAll();

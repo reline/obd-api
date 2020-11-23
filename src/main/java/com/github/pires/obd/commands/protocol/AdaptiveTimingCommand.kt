@@ -22,12 +22,12 @@ package com.github.pires.obd.commands.protocol
  */
 class AdaptiveTimingCommand(mode: Int) : ObdProtocolCommand("AT AT$mode") {
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return result
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return "Adaptive timing set"
     }
 }

@@ -11,30 +11,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.pires.obd.commands.protocol
-
-import com.github.pires.obd.commands.ObdCommand
+package com.github.pires.obd.commands
 
 /**
- * Reset trouble codes.
+ * Abstract class for percentage commands.
  *
  */
-class ResetTroubleCodesCommand : ObdCommand("04") {
+abstract class PercentageObdCommand(command: String) : ObdCommand(command) {
+    var percentage = 0f
+        protected set
+
     /** {@inheritDoc}  */
-    override fun performCalculations() {}
+    override fun performCalculations() {
+        // ignore first two bytes [hh hh] of the response
+        percentage = buffer[2] * 100.0f / 255.0f
+    }
 
     /** {@inheritDoc}  */
     override val formattedResult: String get() {
-        return result
+        return String.format("%.1f%s", percentage, resultUnit)
     }
+
+    override val resultUnit: String?
+        get() = "%"
 
     /** {@inheritDoc}  */
     override val calculatedResult: String get() {
-        return result
-    }
-
-    /** {@inheritDoc}  */
-    override val name: String get() {
-        return result
+        return percentage.toString()
     }
 }

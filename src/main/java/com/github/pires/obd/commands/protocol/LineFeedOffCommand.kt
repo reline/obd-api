@@ -19,12 +19,12 @@ package com.github.pires.obd.commands.protocol
  */
 class LineFeedOffCommand : ObdProtocolCommand("AT L0") {
     /** {@inheritDoc}  */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return result
     }
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return "Line Feed Off"
     }
 }

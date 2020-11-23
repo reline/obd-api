@@ -36,17 +36,17 @@ class DistanceSinceCCCommand : ObdCommand("01 31"), SystemOfUnits {
      *
      * @return a [java.lang.String] object.
      */
-    override fun getFormattedResult(): String {
+    override val formattedResult: String get() {
         return if (useImperialUnits) String.format("%.2f%s", imperialUnit, resultUnit) else String.format("%d%s", km, resultUnit)
     }
 
     /** {@inheritDoc}  */
-    override fun getCalculatedResult(): String {
+    override val calculatedResult: String get() {
         return if (useImperialUnits) imperialUnit.toString() else km.toString()
     }
 
     /** {@inheritDoc}  */
-    override fun getResultUnit(): String {
+    override val resultUnit: String get() {
         return if (useImperialUnits) "m" else "km"
     }
 
@@ -55,7 +55,7 @@ class DistanceSinceCCCommand : ObdCommand("01 31"), SystemOfUnits {
         get() = km * 0.621371192f
 
     /** {@inheritDoc}  */
-    override fun getName(): String {
+    override val name: String get() {
         return AvailableCommandNames.DISTANCE_TRAVELED_AFTER_CODES_CLEARED
                 .value
     }
