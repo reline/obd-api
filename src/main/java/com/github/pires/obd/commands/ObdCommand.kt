@@ -215,20 +215,8 @@ abstract class ObdCommand(protected val cmd: String) {
     }
 
     private fun checkForErrors() {
-        for (errorClass in ERROR_CLASSES) {
-            var messageError: ResponseException
-            try {
-                messageError = errorClass.newInstance()
-                messageError.setCommand(cmd)
-            } catch (e: InstantiationException) {
-                throw RuntimeException(e)
-            } catch (e: IllegalAccessException) {
-                throw RuntimeException(e)
-            }
-            if (messageError.isError(result)) {
-                throw messageError
-            }
-        }
+         val e = ResponseException.from(result)
+         if (e != null) throw e
     }
 
     /**
@@ -257,9 +245,7 @@ abstract class ObdCommand(protected val cmd: String) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        other as ObdCommand
-        return cmd == other.cmd
+        return other is ObdCommand && cmd == other.cmd
     }
 
     override fun hashCode(): Int {
@@ -271,18 +257,5 @@ abstract class ObdCommand(protected val cmd: String) {
         private val BUSINIT_PATTERN = Regex("(BUS INIT)|(BUSINIT)|(\\.)")
         private val SEARCHING_PATTERN = Regex("SEARCHING")
         private val DIGITS_LETTERS_PATTERN = Regex("([0-9A-F])+")
-
-        /**
-         * Error classes to be tested in order
-         */
-        private val ERROR_CLASSES = arrayOf(
-                UnableToConnectException::class.java,
-                BusInitException::class.java,
-                MisunderstoodCommandException::class.java,
-                NoDataException::class.java,
-                StoppedException::class.java,
-                UnknownErrorException::class.java,
-                UnsupportedCommandException::class.java
-        )
     }
 }
