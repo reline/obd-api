@@ -51,7 +51,7 @@ class SpeedCommand : ObdCommand("01 0D"), SystemOfUnits {
      *
      * getFormattedResult.
      *
-     * @return a [java.lang.String] object.
+     * @return a [String] object.
      */
     override val formattedResult: String get() {
         return if (useImperialUnits) String.format("%.2f%s", imperialUnit, resultUnit) else String.format("%d%s", metricSpeed, resultUnit)

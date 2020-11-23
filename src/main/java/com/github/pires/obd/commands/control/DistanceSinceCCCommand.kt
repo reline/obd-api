@@ -33,8 +33,6 @@ class DistanceSinceCCCommand : ObdCommand("01 31"), SystemOfUnits {
     /**
      *
      * getFormattedResult.
-     *
-     * @return a [java.lang.String] object.
      */
     override val formattedResult: String get() {
         return if (useImperialUnits) String.format("%.2f%s", imperialUnit, resultUnit) else String.format("%d%s", km, resultUnit)

@@ -13,106 +13,13 @@
  */
 package com.github.pires.obd.commands.control
 
-import com.github.pires.obd.commands.ObdCommand
 import com.github.pires.obd.enums.AvailableCommandNames
-import java.io.IOException
-import java.io.InputStream
 
-/**
- * It is not needed no know how many DTC are stored.
- * Because when no DTC are stored response will be NO DATA
- * And where are more messages it will be stored in frames that have 7 bytes.
- * In one frame are stored 3 DTC.
- * If we find out DTC P0000 that mean no message are we can end.
- */
-class PendingTroubleCodesCommand : ObdCommand("07") {
-    private var codes = StringBuilder()
+class PendingTroubleCodesCommand : TroubleCodesCommand("07") {
 
-    /** {@inheritDoc}  */
-    override fun fillBuffer() {}
+    override val regex = Regex("^47|[\r\n]47|[\r\n]")
 
-    /** {@inheritDoc}  */
-    override fun performCalculations() {
-        val result = result
-        val workingData: String
-        var startIndex = 0 //Header size.
-        val canOneFrame = result.replace("[\r\n]".toRegex(), "")
-        val canOneFrameLength = canOneFrame.length
-        if (canOneFrameLength <= 16 && canOneFrameLength % 4 == 0) { //CAN(ISO-15765) protocol one frame.
-            workingData = canOneFrame //47yy{codes}
-            startIndex = 4 //Header is 47yy, yy showing the number of data items.
-        } else if (result.contains(":")) { //CAN(ISO-15765) protocol two and more frames.
-            workingData = result.replace("[\r\n].:".toRegex(), "") //xxx47yy{codes}
-            startIndex = 7 //Header is xxx47yy, xxx is bytes of information to follow, yy showing the number of data items.
-        } else { //ISO9141-2, KWP2000 Fast and KWP2000 5Kbps (ISO15031) protocols.
-            workingData = result.replace("^47|[\r\n]47|[\r\n]".toRegex(), "")
-        }
-        var begin = startIndex
-        while (begin < workingData.length) {
-            var dtc = ""
-            val b1 = hexStringToByteArray(workingData[begin])
-            val ch1: Int = b1.toInt() and 0xC0 shr 6
-            val ch2: Int = b1.toInt() and 0x30 shr 4
-            dtc += dtcLetters[ch1]
-            dtc += hexArray[ch2]
-            dtc += workingData.substring(begin + 1, begin + 4)
-            if (dtc == "P0000") {
-                return
-            }
-            codes.append(dtc)
-            codes.append('\n')
-            begin += 4
-        }
-    }
-
-    private fun hexStringToByteArray(s: Char): Byte {
-        return (Character.digit(s, 16) shl 4).toByte()
-    }
-
-    /** {@inheritDoc}  */
-    override val calculatedResult: String get() {
-        return codes.toString()
-    }
-
-    /** {@inheritDoc}  */
-    @Throws(IOException::class)
-    override fun readRawData(`in`: InputStream) {
-        var b: Byte
-        val res = StringBuilder()
-
-        // read until '>' arrives OR end of stream reached (and skip ' ')
-        var c: Char
-        while (true) {
-            b = `in`.read().toByte()
-            // -1 if the end of the stream is reached
-            if (b.toInt() == -1) {
-                break
-            }
-            c = b.toChar()
-            // read until '>' arrives
-            if (c == '>') {
-                break
-            }
-            // skip ' '
-            if (c != ' ') {
-                res.append(c)
-            }
-        }
-        result = res.toString().trim { it <= ' ' }
-    }
-
-    /** {@inheritDoc}  */
-    override val formattedResult: String get() {
-        return codes.toString()
-    }
-
-    /** {@inheritDoc}  */
     override val name: String get() {
         return AvailableCommandNames.PENDING_TROUBLE_CODES.value
-    }
-
-    companion object {
-        private val dtcLetters = charArrayOf('P', 'C', 'B', 'U')
-        private val hexArray = "0123456789ABCDEF".toCharArray()
     }
 }
