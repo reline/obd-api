@@ -16,7 +16,6 @@ package com.github.pires.obd.commands
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
-import java.util.*
 
 /**
  * Container for multiple [com.github.pires.obd.commands.ObdMultiCommand] instances.
@@ -59,12 +58,10 @@ class ObdMultiCommand {
      *
      * getFormattedResult.
      *
-     * @return a [java.lang.String] object.
+     * @return a [String] object.
      */
     val formattedResult: String
         get() {
-            val res = StringBuilder()
-            for (command in commands) res.append(command.formattedResult).append(",")
-            return res.toString()
+            return commands.joinToString(",")
         }
 }

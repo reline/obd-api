@@ -24,10 +24,30 @@ import java.io.InputStream
  * And where are more messages it will be stored in frames that have 7 bytes.
  * In one frame are stored 3 DTC.
  * If we find out DTC P0000 that mean no message are we can end.
- *
  */
-class TroubleCodesCommand : ObdCommand("03") {
+open class TroubleCodesCommand : ObdCommand {
     private var codes = StringBuilder()
+
+    protected open val regex = Regex("^43|[\r\n]43|[\r\n]")
+
+    constructor() : super("03")
+
+    protected constructor(cmd: String) : super(cmd)
+
+    /** {@inheritDoc}  */
+    override val name: String get() {
+        return AvailableCommandNames.TROUBLE_CODES.value
+    }
+
+    /** {@inheritDoc}  */
+    override val formattedResult: String get() {
+        return codes.toString()
+    }
+
+    /** {@inheritDoc}  */
+    override val calculatedResult: String get() {
+        return codes.toString()
+    }
 
     /** {@inheritDoc}  */
     override fun fillBuffer() {}
@@ -46,7 +66,7 @@ class TroubleCodesCommand : ObdCommand("03") {
             workingData = result.replace("[\r\n].:".toRegex(), "") //xxx43yy{codes}
             startIndex = 7 //Header is xxx43yy, xxx is bytes of information to follow, yy showing the number of data items.
         } else { //ISO9141-2, KWP2000 Fast and KWP2000 5Kbps (ISO15031) protocols.
-            workingData = result.replace("^43|[\r\n]43|[\r\n]".toRegex(), "")
+            workingData = result.replace(regex, "")
         }
         var begin = startIndex
         while (begin < workingData.length) {
@@ -68,22 +88,6 @@ class TroubleCodesCommand : ObdCommand("03") {
 
     private fun hexStringToByteArray(s: Char): Byte {
         return (Character.digit(s, 16) shl 4).toByte()
-    }
-
-    /**
-     *
-     * formatResult.
-     *
-     * @return the formatted result of this command in string representation.
-     */
-    @Deprecated("use #getCalculatedResult instead")
-    fun formatResult(): String {
-        return codes.toString()
-    }
-
-    /** {@inheritDoc}  */
-    override val calculatedResult: String get() {
-        return codes.toString()
     }
 
     /** {@inheritDoc}  */
@@ -111,16 +115,6 @@ class TroubleCodesCommand : ObdCommand("03") {
             }
         }
         result = res.toString().trim { it <= ' ' }
-    }
-
-    /** {@inheritDoc}  */
-    override val formattedResult: String get() {
-        return codes.toString()
-    }
-
-    /** {@inheritDoc}  */
-    override val name: String get() {
-        return AvailableCommandNames.TROUBLE_CODES.value
     }
 
     companion object {

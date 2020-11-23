@@ -31,6 +31,6 @@ abstract class AvailablePidsCommand(command: String) : PersistentCommand(command
     /** {@inheritDoc}  */
     override val calculatedResult: String get() {
         //First 4 characters are a copy of the command code, don't return those
-        return result.toString().substring(4)
+        return result.substring(4)
     }
 }

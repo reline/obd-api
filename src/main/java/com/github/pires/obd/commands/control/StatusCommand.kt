@@ -183,7 +183,7 @@ data class StatusCommand(val command: String = "01 01") : ObdCommand(command) {
      *
      * getFormattedResult.
      *
-     * @return a [java.lang.String] object.
+     * @return a [String] object.
      */
     override val formattedResult: String get() {
         val res = if (milOn) "MIL is ON" else "MIL is OFF"

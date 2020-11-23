@@ -17,8 +17,6 @@ import com.github.pires.obd.exceptions.*
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
-import java.util.*
-import java.util.regex.Pattern
 
 /**
  * Base OBD command.
@@ -146,18 +144,18 @@ abstract class ObdCommand(protected val cmd: String) {
      * called only once to perform calculations.
      */
     protected abstract fun performCalculations()
-    protected fun replaceAll(pattern: Pattern, input: String, replacement: String?): String {
-        return pattern.matcher(input).replaceAll(replacement)
+    protected fun replaceAll(regex: Regex, input: String, replacement: String): String {
+        return regex.replace(input, replacement)
     }
 
-    protected fun removeAll(pattern: Pattern, input: String): String {
-        return pattern.matcher(input).replaceAll("")
+    protected fun removeAll(regex: Regex, input: String): String {
+        return regex.replace(input, "")
     }
 
     protected open fun fillBuffer() {
         result = removeAll(WHITESPACE_PATTERN, result) //removes all [ \t\n\x0B\f\r]
         result = removeAll(BUSINIT_PATTERN, result)
-        if (!DIGITS_LETTERS_PATTERN.matcher(result).matches()) {
+        if (!DIGITS_LETTERS_PATTERN.matches(result)) {
             throw NonNumericResponseException(result)
         }
 
@@ -269,10 +267,10 @@ abstract class ObdCommand(protected val cmd: String) {
     }
 
     companion object {
-        private val WHITESPACE_PATTERN = Pattern.compile("\\s")
-        private val BUSINIT_PATTERN = Pattern.compile("(BUS INIT)|(BUSINIT)|(\\.)")
-        private val SEARCHING_PATTERN = Pattern.compile("SEARCHING")
-        private val DIGITS_LETTERS_PATTERN = Pattern.compile("([0-9A-F])+")
+        private val WHITESPACE_PATTERN = Regex("\\s")
+        private val BUSINIT_PATTERN = Regex("(BUS INIT)|(BUSINIT)|(\\.)")
+        private val SEARCHING_PATTERN = Regex("SEARCHING")
+        private val DIGITS_LETTERS_PATTERN = Regex("([0-9A-F])+")
 
         /**
          * Error classes to be tested in order

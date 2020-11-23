@@ -15,7 +15,6 @@ package com.github.pires.obd.commands.control
 
 import com.github.pires.obd.commands.PersistentCommand
 import com.github.pires.obd.enums.AvailableCommandNames
-import java.util.regex.Pattern
 
 class VinCommand : PersistentCommand("09 02") {
     var vin = ""
@@ -28,8 +27,10 @@ class VinCommand : PersistentCommand("09 02") {
         var workingData: String
         if (result.contains(":")) { //CAN(ISO-15765) protocol.
             workingData = result.replace(".:".toRegex(), "").substring(9) //9 is xxx490201, xxx is bytes of information to follow.
-            val m = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE).matcher(convertHexToString(workingData))
-            if (m.find()) workingData = result.replace("0:49".toRegex(), "").replace(".:".toRegex(), "")
+            val regex = Regex("[^a-z0-9 ]", RegexOption.IGNORE_CASE)
+            if (regex.containsMatchIn(convertHexToString(workingData))) {
+                workingData = result.replace("0:49".toRegex(), "").replace(".:".toRegex(), "")
+            }
         } else { //ISO9141-2, KWP2000 Fast and KWP2000 5Kbps (ISO15031) protocols.
             workingData = result.replace("49020.".toRegex(), "")
         }
