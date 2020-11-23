@@ -15,37 +15,50 @@ package com.github.pires.obd.exceptions
 
 /**
  * Generic message error
- *
  */
-sealed class ResponseException : RuntimeException() {
+sealed class ResponseException(
+        override val message: String
+) : RuntimeException() {
     private var response: String? = null
-    private var command: String? = null
 
-    override val message: String?
-        get() = "Error running $command, response: $response"
+    companion object {
+        // Ordered list of exceptions
+        private val EXCEPTIONS = listOf(
+                UnableToConnectException(),
+                BusInitException(),
+                MisunderstoodCommandException(),
+                NoDataException(),
+                StoppedException(),
+                UnknownErrorException(),
+                UnsupportedCommandException(),
+        )
 
-    fun isError(response: String?): Boolean {
-        this.response = response
-        return isErrorInternal(response.clean())
+        fun from(response: String): ResponseException? {
+            val e = EXCEPTIONS.find { it.matches(response) }
+            if (e != null) {
+                e.response = response
+                return e
+            }
+            return null
+        }
     }
 
-    fun setCommand(command: String) {
-        this.command = command
+    open fun matches(response: String): Boolean {
+        return response.contains(message.clean())
     }
-
-    protected abstract fun isErrorInternal(response: String): Boolean
 }
 
-open class RegexResponseException(pattern: String) : ResponseException() {
-    private val regex = pattern.clean().toRegex()
-    override fun isErrorInternal(response: String): Boolean {
+class NoDataException : ResponseException("NO DATA")
+class MisunderstoodCommandException : ResponseException("?")
+class BusInitException : ResponseException("BUS INIT... ERROR")
+class UnableToConnectException : ResponseException("UNABLE TO CONNECT")
+class StoppedException : ResponseException("STOPPED")
+class UnknownErrorException : ResponseException("ERROR")
+
+class UnsupportedCommandException : ResponseException("Unsupported Command") {
+    private val regex = "7F 0[0-A] 1[1-2]".clean().toRegex()
+    override fun matches(response: String): Boolean {
         return response.matches(regex)
-    }
-}
-
-open class MessageResponseException(private val msg: String) : ResponseException() {
-    override fun isErrorInternal(response: String): Boolean {
-        return response.contains(msg.clean())
     }
 }
 
