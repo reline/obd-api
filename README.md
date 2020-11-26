@@ -1,7 +1,7 @@
-obd-java-api
+obd-api
 ============
 
-OBD-II Java API
+OBD-II API
 
 ## Important resources
 
@@ -14,19 +14,19 @@ Before opening an issue or using this library, please take a look at the followi
 ### Example ###
 
 After pairing and establishing Bluetooth connection to your ELM327 device..
-```
-...
+```kotlin
+..
 // retrieve Bluetooth socket
-socket = ...; // specific to the VM you're using (Java, Android, etc.)
+socket = .. // specific to the platform you're using
 
 // execute commands
 try {
-  new EchoOffCommand().run(socket.getInputStream(), socket.getOutputStream());
-  new LineFeedOffCommand().run(socket.getInputStream(), socket.getOutputStream());
-  new TimeoutCommand(125).run(socket.getInputStream(), socket.getOutputStream());
-  new SelectProtocolCommand(ObdProtocols.AUTO).run(socket.getInputStream(), socket.getOutputStream());
-  new AmbientAirTemperatureCommand().run(socket.getInputStream(), socket.getOutputStream());
-} catch (Exception e) {
+  EchoOffCommand().run(socket.inputStream, socket.outputStream)
+  LineFeedOffCommand().run(socket.inputStream, socket.outputStream)
+  TimeoutCommand(125).run(socket.inputStream, socket.outputStream)
+  SelectProtocolCommand(ObdProtocols.AUTO).run(socket.inputStream, socket.outputStream)
+  AmbientAirTemperatureCommand().run(socket.inputStream, socket.outputStream)
+} catch (e: Exception) {
   // handle errors
 }
 ```
