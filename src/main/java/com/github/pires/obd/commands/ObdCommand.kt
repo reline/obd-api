@@ -72,9 +72,11 @@ abstract class ObdCommand(protected val cmd: String) {
      * @throws IOException            if any.
      * @throws java.lang.InterruptedException if any.
      */
+    // fixme: suspend function
     @Throws(IOException::class, InterruptedException::class)
     open fun run(`in`: InputStream, out: OutputStream) {
-        synchronized(ObdCommand::class.java) {
+        // fixme: Synchronization is not supported on every platform
+        synchronized(ObdCommand::class) {
             //Only one command can write and read a data in one time.
             start = System.currentTimeMillis()
             sendCommand(out)
@@ -94,6 +96,7 @@ abstract class ObdCommand(protected val cmd: String) {
      * @throws IOException            if any.
      * @throws java.lang.InterruptedException if any.
      */
+    // fixme: suspend function
     @Throws(IOException::class, InterruptedException::class)
     protected fun sendCommand(out: OutputStream) {
         // write to OutputStream (i.e.: a BluetoothSocket) with an added
@@ -112,6 +115,7 @@ abstract class ObdCommand(protected val cmd: String) {
      * @throws IOException            if any.
      * @throws java.lang.InterruptedException if any.
      */
+    // fixme: suspend function
     @Throws(IOException::class, InterruptedException::class)
     protected fun resendCommand(out: OutputStream) {
         out.write("\r".toByteArray())
