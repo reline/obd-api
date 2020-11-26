@@ -20,7 +20,7 @@ package com.github.pires.obd.commands.protocol
  * @param timeout value between 0 and 255 that multiplied by 4 results in the
  * desired timeout in milliseconds (ms).
  */
-class TimeoutCommand(timeout: Int) : ObdProtocolCommand("AT ST " + Integer.toHexString(0xFF and timeout)) {
+class TimeoutCommand(timeout: Int) : ObdProtocolCommand("AT ST " + (0xFF and timeout).toString(16)) {
     /** {@inheritDoc}  */
     override val formattedResult: String get() {
         return result

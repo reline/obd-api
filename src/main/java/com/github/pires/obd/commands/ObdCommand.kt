@@ -138,7 +138,7 @@ abstract class ObdCommand(protected val cmd: String) {
         var begin = 0
         var end = 2
         while (end <= result.length) {
-            buffer.add(Integer.decode("0x" + result.substring(begin, end)))
+            buffer.add((result.substring(begin, end)).toInt(16))
             begin = end
             end += 2
         }
