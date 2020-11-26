@@ -13,13 +13,13 @@
  */
 package com.github.pires.obd.commands.protocol
 
-import com.github.pires.obd.commands.PersistentCommand
+import com.github.pires.obd.commands.ObdCommand
 
 /**
  * Retrieve available PIDs ranging from 21 to 40.
  *
  */
-abstract class AvailablePidsCommand(command: String) : PersistentCommand(command) {
+abstract class AvailablePidsCommand(command: String) : ObdCommand(command) {
     /** {@inheritDoc}  */
     override fun performCalculations() {}
 
