@@ -13,9 +13,9 @@
  */
 package com.github.pires.obd.commands
 
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
+import com.github.pires.obd.InputStream
+import com.github.pires.obd.OutputStream
+import com.github.pires.obd.exceptions.IOException
 
 /**
  * Base persistent OBD command.

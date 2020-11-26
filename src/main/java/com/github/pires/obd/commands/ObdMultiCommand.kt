@@ -13,9 +13,9 @@
  */
 package com.github.pires.obd.commands
 
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
+import com.github.pires.obd.InputStream
+import com.github.pires.obd.OutputStream
+import com.github.pires.obd.exceptions.IOException
 
 /**
  * Container for multiple [com.github.pires.obd.commands.ObdMultiCommand] instances.
@@ -44,9 +44,9 @@ class ObdMultiCommand {
     /**
      * Iterate all commands, send them and read response.
      *
-     * @param in  a [java.io.InputStream] object.
-     * @param out a [java.io.OutputStream] object.
-     * @throws java.io.IOException            if any.
+     * @param in  a [InputStream] object.
+     * @param out a [OutputStream] object.
+     * @throws IOException            if any.
      * @throws java.lang.InterruptedException if any.
      */
     @Throws(IOException::class, InterruptedException::class)
