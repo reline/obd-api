@@ -13,10 +13,10 @@
  */
 package com.github.pires.obd.commands.control
 
-import com.github.pires.obd.commands.PersistentCommand
+import com.github.pires.obd.commands.ObdCommand
 import com.github.pires.obd.enums.AvailableCommandNames
 
-class VinCommand : PersistentCommand("09 02") {
+class VinCommand : ObdCommand("09 02") {
     var vin = ""
 
     /**
