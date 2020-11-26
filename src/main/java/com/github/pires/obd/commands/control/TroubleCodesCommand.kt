@@ -26,7 +26,7 @@ import com.github.pires.obd.exceptions.IOException
  * If we find out DTC P0000 that mean no message are we can end.
  */
 open class TroubleCodesCommand : ObdCommand {
-    private var codes = StringBuilder()
+    private val codes = StringBuilder()
 
     protected open val regex = Regex("^43|[\r\n]43|[\r\n]")
 
@@ -87,7 +87,7 @@ open class TroubleCodesCommand : ObdCommand {
     }
 
     private fun hexStringToByteArray(s: Char): Byte {
-        return (Character.digit(s, 16) shl 4).toByte()
+        return (s.toString().toInt(16) shl 4).toByte()
     }
 
     /** {@inheritDoc}  */
