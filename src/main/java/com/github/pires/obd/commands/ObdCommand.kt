@@ -13,10 +13,9 @@
  */
 package com.github.pires.obd.commands
 
+import com.github.pires.obd.InputStream
+import com.github.pires.obd.OutputStream
 import com.github.pires.obd.exceptions.*
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 
 /**
  * Base OBD command.
@@ -68,9 +67,9 @@ abstract class ObdCommand(protected val cmd: String) {
      *
      * This method CAN be overriden in fake commands.
      *
-     * @param in  a [java.io.InputStream] object.
-     * @param out a [java.io.OutputStream] object.
-     * @throws java.io.IOException            if any.
+     * @param in  a [InputStream] object.
+     * @param out a [OutputStream] object.
+     * @throws IOException            if any.
      * @throws java.lang.InterruptedException if any.
      */
     @Throws(IOException::class, InterruptedException::class)
@@ -92,7 +91,7 @@ abstract class ObdCommand(protected val cmd: String) {
      * TroubleCodesCommand.
      *
      * @param out The output stream.
-     * @throws java.io.IOException            if any.
+     * @throws IOException            if any.
      * @throws java.lang.InterruptedException if any.
      */
     @Throws(IOException::class, InterruptedException::class)
@@ -109,8 +108,8 @@ abstract class ObdCommand(protected val cmd: String) {
     /**
      * Resends this command.
      *
-     * @param out a [java.io.OutputStream] object.
-     * @throws java.io.IOException            if any.
+     * @param out a [OutputStream] object.
+     * @throws IOException            if any.
      * @throws java.lang.InterruptedException if any.
      */
     @Throws(IOException::class, InterruptedException::class)
@@ -128,8 +127,8 @@ abstract class ObdCommand(protected val cmd: String) {
      *
      * This method may be overriden in subclasses, such as ObdMultiCommand.
      *
-     * @param in a [java.io.InputStream] object.
-     * @throws java.io.IOException if any.
+     * @param in a [InputStream] object.
+     * @throws IOException if any.
      */
     @Throws(IOException::class)
     open fun readResult(`in`: InputStream) {
@@ -173,8 +172,8 @@ abstract class ObdCommand(protected val cmd: String) {
     /**
      * readRawData.
      *
-     * @param in a [java.io.InputStream] object.
-     * @throws java.io.IOException if any.
+     * @param in a [InputStream] object.
+     * @throws IOException if any.
      */
     @Throws(IOException::class)
     protected open fun readRawData(`in`: InputStream) {
