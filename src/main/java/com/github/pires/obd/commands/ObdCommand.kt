@@ -36,17 +36,6 @@ abstract class ObdCommand(protected val cmd: String) {
         protected set
 
     /**
-     * Time the command waits before returning from #sendCommand()
-     *
-     * @param responseDelayInMs a Long (can be null)
-     */
-    var responseTimeDelay: Long = 0
-
-    //fixme resultunit
-    var start: Long = 0
-    var end: Long = 0
-
-    /**
      * the OBD command name.
      */
     abstract val name: String?
@@ -70,17 +59,11 @@ abstract class ObdCommand(protected val cmd: String) {
      * @param in  a [InputStream] object.
      * @param out a [OutputStream] object.
      * @throws IOException            if any.
-     * @throws java.lang.InterruptedException if any.
      */
-    @Throws(IOException::class, InterruptedException::class)
+    @Throws(IOException::class)
     open fun run(`in`: InputStream, out: OutputStream) {
-        synchronized(ObdCommand::class.java) {
-            //Only one command can write and read a data in one time.
-            start = System.currentTimeMillis()
-            sendCommand(out)
-            readResult(`in`)
-            end = System.currentTimeMillis()
-        }
+        sendCommand(out)
+        readResult(`in`)
     }
 
     /**
@@ -92,17 +75,13 @@ abstract class ObdCommand(protected val cmd: String) {
      *
      * @param out The output stream.
      * @throws IOException            if any.
-     * @throws java.lang.InterruptedException if any.
      */
-    @Throws(IOException::class, InterruptedException::class)
+    @Throws(IOException::class)
     protected fun sendCommand(out: OutputStream) {
         // write to OutputStream (i.e.: a BluetoothSocket) with an added
         // Carriage return
         out.write((cmd + "\r").toByteArray())
         out.flush()
-        if (responseTimeDelay > 0) {
-            Thread.sleep(responseTimeDelay)
-        }
     }
 
     /**
@@ -110,15 +89,11 @@ abstract class ObdCommand(protected val cmd: String) {
      *
      * @param out a [OutputStream] object.
      * @throws IOException            if any.
-     * @throws java.lang.InterruptedException if any.
      */
-    @Throws(IOException::class, InterruptedException::class)
+    @Throws(IOException::class)
     protected fun resendCommand(out: OutputStream) {
         out.write("\r".toByteArray())
         out.flush()
-        if (responseTimeDelay > 0) {
-            Thread.sleep(responseTimeDelay)
-        }
     }
 
     /**
