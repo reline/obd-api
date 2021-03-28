@@ -14,9 +14,11 @@
 package com.github.pires.obd.commands.control
 
 sealed class OnboardTests(
+    val milOn: Boolean,
+    val totalAvailableCodes: Int,
     val components: OnboardTest,
     val fuelSystem: OnboardTest,
-    val misfire: OnboardTest
+    val misfire: OnboardTest,
 ) {
     abstract val tests: List<OnboardTest>
     fun isReady(): Boolean {
@@ -25,6 +27,8 @@ sealed class OnboardTests(
 }
 
 class CompressionEngineOnboardTests(
+    milOn: Boolean,
+    totalAvailableCodes: Int,
     components: OnboardTest,
     fuelSystem: OnboardTest,
     misfire: OnboardTest,
@@ -34,7 +38,7 @@ class CompressionEngineOnboardTests(
     val boostPressure: OnboardTest,
     val noxMonitor: OnboardTest, // AKA SCR
     val nmhcCatalyst: OnboardTest
-) : OnboardTests(components, fuelSystem, misfire) {
+) : OnboardTests(milOn, totalAvailableCodes, components, fuelSystem, misfire) {
     override val tests = listOf(
         components,
         fuelSystem,
@@ -49,6 +53,8 @@ class CompressionEngineOnboardTests(
 }
 
 class SparkIgnitionOnboardTests(
+    milOn: Boolean,
+    totalAvailableCodes: Int,
     components: OnboardTest,
     fuelSystem: OnboardTest,
     misfire: OnboardTest,
@@ -60,7 +66,7 @@ class SparkIgnitionOnboardTests(
     val evapSystem: OnboardTest,
     val heatedCatalyst: OnboardTest,
     val catalyst: OnboardTest
-) : OnboardTests(components, fuelSystem, misfire) {
+) : OnboardTests(milOn, totalAvailableCodes, components, fuelSystem, misfire) {
     override val tests = listOf(
         components,
         fuelSystem,

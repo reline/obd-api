@@ -119,6 +119,8 @@ data class StatusCommand(val command: String = "01 01") : ObdCommand(command) {
              * NMHC Catalyst          C0          D0
              */
             onboardTestResults = CompressionEngineOnboardTests(
+                milOn,
+                totalAvailableCodes,
                 components = components,
                 fuelSystem = fuelSystem,
                 misfire = misfire,
@@ -153,6 +155,8 @@ data class StatusCommand(val command: String = "01 01") : ObdCommand(command) {
          * Catalyst	            C0              D0
          */
         onboardTestResults = SparkIgnitionOnboardTests(
+            milOn,
+            totalAvailableCodes,
             components = components,
             fuelSystem = fuelSystem,
             misfire = misfire,
