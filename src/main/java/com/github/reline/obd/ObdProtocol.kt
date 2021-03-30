@@ -7,55 +7,6 @@ import com.github.pires.obd.commands.control.SparkIgnitionOnboardTests
 import com.github.pires.obd.enums.FuelType
 import okio.ByteString.Companion.decodeHex
 
-// percentage
-fun ObdSocket.getThrottlePosition() = percentageRequest("01 11")
-
-// percentage
-fun ObdSocket.getEthanolContent() = percentageRequest("01 52")
-
-// km/hr
-fun ObdSocket.getSpeed() = numericRequest("01 0D").last()
-
-// seconds
-fun ObdSocket.getRuntime() = integerRequest("01 1F")
-
-// celsius
-fun ObdSocket.getAirIntakeTemperature() = temperatureRequest("01 0F")
-
-fun ObdSocket.getProtocol() = perform("AT DPN").last()
-
-// km
-fun ObdSocket.getDistanceTraveledSinceCodesCleared() = integerRequest("01 31")
-
-fun ObdSocket.getFuelType() = FuelType.fromValue(numericRequest("01 51").last())
-
-// percentage
-fun ObdSocket.getFuelLevel() = percentageRequest("01 2F")
-
-// RPM
-fun ObdSocket.getEngineSpeed() = integerRequest("01 0C") / 4
-
-// grams per second
-fun ObdSocket.getMassAirFlow() = integerRequest("01 10") / 100.0f
-
-// kPa
-fun ObdSocket.getIntakeManifoldPressure() = numericRequest("01 0B").last()
-
-fun ObdSocket.getVin(): String {
-    val response = perform("09 02")
-    var workingData: String
-    if (response.contains(":")) { //CAN(ISO-15765) protocol.
-        workingData = response.replace(".:".toRegex(), "").substring(9) //9 is xxx490201, xxx is bytes of information to follow.
-        val regex = Regex("[^a-z0-9 ]", RegexOption.IGNORE_CASE)
-        if (regex.containsMatchIn(workingData.decodeHex().utf8())) {
-            workingData = response.replace("0:49".toRegex(), "").replace(".:".toRegex(), "")
-        }
-    } else { //ISO9141-2, KWP2000 Fast and KWP2000 5Kbps (ISO15031) protocols.
-        workingData = response.replace("49020.".toRegex(), "")
-    }
-    return workingData.decodeHex().utf8().replace("[\u0000-\u001f]".toRegex(), "")
-}
-
 fun ObdSocket.getStatus(): OnboardTests {
     val response = numericRequest("01 01")
     // ignore first two bytes [hh hh] of the response
@@ -161,4 +112,53 @@ fun ObdSocket.getStatus(): OnboardTests {
         heatedCatalyst = OnboardTest(c and 0x2 == 2, d and 0x2 == 2),
         catalyst = OnboardTest(c and 0x1 == 1, d and 0x1 == 1)
     )
+}
+
+// kPa
+fun ObdSocket.getIntakeManifoldPressure() = numericRequest("01 0B").last()
+
+// RPM
+fun ObdSocket.getEngineSpeed() = integerRequest("01 0C") / 4
+
+// km/hr
+fun ObdSocket.getSpeed() = numericRequest("01 0D").last()
+
+// celsius
+fun ObdSocket.getAirIntakeTemperature() = temperatureRequest("01 0F")
+
+// grams per second
+fun ObdSocket.getMassAirFlow() = integerRequest("01 10") / 100.0f
+
+// percentage
+fun ObdSocket.getThrottlePosition() = percentageRequest("01 11")
+
+// seconds
+fun ObdSocket.getRuntime() = integerRequest("01 1F")
+
+// percentage
+fun ObdSocket.getFuelLevel() = percentageRequest("01 2F")
+
+// km
+fun ObdSocket.getDistanceTraveledSinceCodesCleared() = integerRequest("01 31")
+
+fun ObdSocket.getFuelType() = FuelType.fromValue(numericRequest("01 51").last())
+
+// percentage
+fun ObdSocket.getEthanolContent() = percentageRequest("01 52")
+
+fun ObdSocket.getProtocol() = perform("AT DPN").last()
+
+fun ObdSocket.getVin(): String {
+    val response = perform("09 02")
+    var workingData: String
+    if (response.contains(":")) { //CAN(ISO-15765) protocol.
+        workingData = response.replace(".:".toRegex(), "").substring(9) //9 is xxx490201, xxx is bytes of information to follow.
+        val regex = Regex("[^a-z0-9 ]", RegexOption.IGNORE_CASE)
+        if (regex.containsMatchIn(workingData.decodeHex().utf8())) {
+            workingData = response.replace("0:49".toRegex(), "").replace(".:".toRegex(), "")
+        }
+    } else { //ISO9141-2, KWP2000 Fast and KWP2000 5Kbps (ISO15031) protocols.
+        workingData = response.replace("49020.".toRegex(), "")
+    }
+    return workingData.decodeHex().utf8().replace("[\u0000-\u001f]".toRegex(), "")
 }
