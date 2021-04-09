@@ -18,6 +18,7 @@
 package com.github.reline.obd
 
 import com.github.pires.obd.enums.FuelType
+import com.github.pires.obd.enums.ObdProtocols
 import okio.ByteString.Companion.decodeHex
 
 fun ObdSocket.getSupportedPids() = listOf(
@@ -208,6 +209,23 @@ fun ObdSocket.getOilTemperature() = temperatureRequest("01 5C")
 fun ObdSocket.getEngineFuelRate() = perform("01 5E")
 
 fun ObdSocket.getProtocol() = perform("AT DPN").last()
+
+fun ObdSocket.reset() = perform("AT Z")
+
+fun ObdSocket.turnOffEcho() = perform("AT E0")
+
+fun ObdSocket.turnOffLineFeed() = perform("AT L0")
+
+/**
+ * This will set the value of time in milliseconds (ms) that the OBD interface
+ * will wait for a response from the ECU. If exceeds, the response is "NO DATA".
+ *
+ * @param timeout value between 0 and 255 that multiplied by 4 results in the
+ * desired timeout in milliseconds (ms).
+ */
+fun ObdSocket.setEcuTimeout(timeout: Int) = perform("AT ST ${(0xFF and timeout).toString(16)}")
+
+fun ObdSocket.selectProtocol(protocol: ObdProtocols) = perform("AT SP ${protocol.value}")
 
 fun ObdSocket.getVin(): String {
     val response = perform("09 02")
