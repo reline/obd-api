@@ -11,7 +11,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.pires.obd.commands.control
+
+package com.github.reline.obd
 
 sealed class OnboardTests(
     val milOn: Boolean,

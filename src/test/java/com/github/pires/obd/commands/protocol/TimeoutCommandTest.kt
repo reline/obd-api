@@ -1,7 +1,6 @@
 package com.github.pires.obd.commands.protocol
 
-import org.testng.Assert.assertEquals
-import org.testng.annotations.Test
+import kotlin.test.*
 
 class TimeoutCommandTest {
     @Test

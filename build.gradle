@@ -37,6 +37,8 @@ repositories {
 dependencies {
     testImplementation 'org.testng:testng:6.8.13'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-testng'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-common'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-annotations-common'
     testImplementation 'org.easymock:easymock:3.3'
     testImplementation 'org.powermock:powermock-module-testng:1.6.0'
     testImplementation 'org.powermock:powermock-api-easymock:1.6.0'

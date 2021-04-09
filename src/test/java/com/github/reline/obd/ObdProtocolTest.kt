@@ -1,16 +1,8 @@
 package com.github.reline.obd
 
-import com.github.pires.obd.commands.control.CompressionEngineOnboardTests
-import com.github.pires.obd.commands.control.SparkIgnitionOnboardTests
 import com.github.pires.obd.enums.FuelType
 import okio.Buffer
-import okio.Sink
-import okio.Source
-import org.testng.annotations.BeforeMethod
-import org.testng.annotations.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class ObdProtocolTest {
 
@@ -18,16 +10,11 @@ class ObdProtocolTest {
     private lateinit var input: Buffer
     private lateinit var socket: ObdSocket
 
-    @BeforeMethod
+    @BeforeTest
     fun setup() {
         output = Buffer()
         input = Buffer()
-        socket = object : ObdSocket {
-            override val sink: Sink
-                get() = output
-            override val source: Source
-                get() = input
-        }
+        socket = ObdSocket(sink = output, source = input)
     }
 
     @Test

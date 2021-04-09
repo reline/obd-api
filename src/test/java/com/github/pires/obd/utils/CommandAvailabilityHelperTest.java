@@ -12,7 +12,6 @@
  */
 package com.github.pires.obd.utils;
 
-import com.github.pires.obd.commands.engine.ThrottlePositionCommand;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -39,7 +38,7 @@ public class CommandAvailabilityHelperTest {
     public void testIsAvailable() throws Exception {
         Assert.assertEquals(CommandAvailabilityHelper.INSTANCE.isAvailable("02", "BE1FA813"), false);
         Assert.assertEquals(CommandAvailabilityHelper.INSTANCE.isAvailable("07", "BE1FA813"), true);
-        Assert.assertEquals(CommandAvailabilityHelper.INSTANCE.isAvailable(new ThrottlePositionCommand().getCommandPID() /*11*/, "BE1FA813"), true);
+        Assert.assertEquals(CommandAvailabilityHelper.INSTANCE.isAvailable("11", "BE1FA813"), true);
         Assert.assertEquals(CommandAvailabilityHelper.INSTANCE.isAvailable("1A", "BE1FA813"), false);
         Assert.assertEquals(CommandAvailabilityHelper.INSTANCE.isAvailable("1D", "BE1FA813"), false);
         Assert.assertEquals(CommandAvailabilityHelper.INSTANCE.isAvailable("1F", "BE1FA813"), true);

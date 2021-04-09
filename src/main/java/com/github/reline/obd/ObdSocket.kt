@@ -16,46 +16,50 @@ package com.github.reline.obd
 
 import com.github.pires.obd.exceptions.NonNumericResponseException
 import com.github.pires.obd.exceptions.ResponseException
-import okio.IOException
-import okio.Sink
-import okio.Source
-import okio.buffer
+import okio.*
 
 private val WHITESPACE_PATTERN = Regex("\\s")
 private val BUSINIT_PATTERN = Regex("(BUS INIT)|(BUSINIT)|(\\.)")
 private val SEARCHING_PATTERN = Regex("SEARCHING")
 private val DIGITS_LETTERS_PATTERN = Regex("([0-9A-F])+")
 
-interface ObdSocket {
-    val sink: Sink
-    val source: Source
+open class ObdSocket(
+    private val sink: Sink,
+    private val source: Source
+) : Closeable {
 
     @Throws(IOException::class)
     fun perform(request: String) = perform(sink, source, request)
-}
 
-@Throws(IOException::class)
-fun perform(sink: Sink, source: Source, request: String): String {
-    sink.write(request)
-    return source.readResponse()
-}
+    @Throws(IOException::class)
+    private fun perform(sink: Sink, source: Source, request: String): String {
+        sink.write(request)
+        return source.readResponse()
+    }
 
-@Throws(IOException::class)
-fun Sink.write(request: String) {
-    buffer().writeUtf8("$request\r").close()
-    flush()
-}
+    @Throws(IOException::class)
+    private fun Sink.write(request: String) {
+        buffer().writeUtf8("$request\r").close()
+        flush()
+    }
 
-@Throws(IOException::class)
-fun Source.readResponse() = with(buffer()) {
-    readString(indexOf('>'.toByte()), Charsets.UTF_8)
-        .replace(SEARCHING_PATTERN, "")
-        .replace(WHITESPACE_PATTERN, "")
-        .also {
-            val e = ResponseException.from(it)
-            if (e != null) throw e
-        }
-        .replace(BUSINIT_PATTERN, "")
+    @Throws(IOException::class)
+    private fun Source.readResponse() = with(buffer()) {
+        readString(indexOf('>'.toByte()), Charsets.UTF_8)
+            .replace(SEARCHING_PATTERN, "")
+            .replace(WHITESPACE_PATTERN, "")
+            .also {
+                val e = ResponseException.from(it)
+                if (e != null) throw e
+            }
+            .replace(BUSINIT_PATTERN, "")
+    }
+
+    @Throws(IOException::class)
+    override fun close() {
+        sink.close()
+        source.close()
+    }
 }
 
 internal fun ObdSocket.numericRequest(request: String) =
